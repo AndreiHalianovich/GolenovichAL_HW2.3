@@ -19,8 +19,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         userNameTextField.delegate = self
         passwordTextField.delegate = self
-        
     }
+    
     @IBAction func logInButtonDidClick() {
         tryToLogin()
     }
@@ -48,7 +48,8 @@ class LoginViewController: UIViewController {
     }
 }
 
-// Mark: - Alert controller
+// MARK: - Alert controller and textfield delegate
+
 extension LoginViewController: UITextFieldDelegate{
     
     private func showAlert(with title: String, and message: String) {
@@ -56,7 +57,6 @@ extension LoginViewController: UITextFieldDelegate{
         let okButton = UIAlertAction(title: "OK", style: .default) { _ in
             self.passwordTextField.text = nil
         }
-        
         alert.addAction(okButton)
         present(alert, animated: true)
     }
@@ -68,6 +68,7 @@ extension LoginViewController: UITextFieldDelegate{
             showAlert(with: "Invalid login or password", and: "Please, enter correct login or password")
         }
     }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case userNameTextField:
