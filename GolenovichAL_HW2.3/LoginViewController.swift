@@ -9,8 +9,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    let userName = "User"
-    let password = "Password"
+    let userName = "Alex"
+    let password = "1234"
     
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
