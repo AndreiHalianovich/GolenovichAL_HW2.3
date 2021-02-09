@@ -12,8 +12,23 @@ class LoginViewController: UIViewController {
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
-    private let userName = "Alex"
-    private let password = "1234"
+    private let user = User.getUser()
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let tabBarController = segue.destination as! UITabBarController
+        let viewControllers = tabBarController.viewControllers!
+        
+        for viewController in viewControllers {
+            if let welcomeVC = viewController as? WelcomeViewController {
+                welcomeVC.user = user
+            } else if let profileVC = viewController as? ProfileViewController {
+                profileVC.user = user
+            } else if let moreInfoVC = viewController as? MoreInfoViewController {
+                moreInfoVC.user = user
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,21 +36,18 @@ class LoginViewController: UIViewController {
         passwordTextField.delegate = self
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
-        welcomeVC.userName = userName
-    }
+    
     
     @IBAction func logInButtonDidClick() {
         tryToLogin()
     }
     
     @IBAction func forgotUserNameButtonDidClick() {
-        showAlert(with: "Ooops", and: "Your Name is \(userName) 🤔")
+        showAlert(with: "Ooops", and: "Your Name is \(user.userName) 🤔")
     }
     
     @IBAction func forgotUserPasswordDidCLick() {
-        showAlert(with: "Ooops", and: "Your password is \(password) 🤔")
+        showAlert(with: "Ooops", and: "Your password is \(user.password) 🤔")
     }
     
     @IBAction func unwind(segue: UIStoryboardSegue) {
@@ -47,7 +59,7 @@ class LoginViewController: UIViewController {
 // MARK: - Alert controller
 extension LoginViewController {
     private func tryToLogin() {
-        if userNameTextField.text == userName && passwordTextField.text == password {
+        if userNameTextField.text == user.userName && passwordTextField.text == user.password {
             performSegue(withIdentifier: "showWelcome", sender: nil)
         } else {
             showAlert(with: "Invalid login or password", and: "Please, enter correct login or password")
